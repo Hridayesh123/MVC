@@ -1,3 +1,4 @@
+import { Query } from "express-serve-static-core";
 
 export interface IRepository<T> {
 
@@ -13,7 +14,9 @@ export interface IRepository<T> {
 
     update(id:any, name:any, code:any):Promise<T>;
 
-    stud_result(id: any):Promise<T>;
+    stud_result(id: any, query:any):Promise<T>;
+
+    marking(studentid: any, query:any, sub_marks:any):Promise<T>;
 
     // generateResult(req: Request, res: Response): Promise<void>;
 

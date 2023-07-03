@@ -1,9 +1,13 @@
 import { Connect, init_Sequelize } from "../common/Connect";
-import { Request, Response } from "express";
+import { Request, Response, query } from "express";
 import { GenericService } from "../services/GenericService";
 import { StudentMapper } from "../mapper/StudentMapper";
 import { ResultGenerationMapper } from "../mapper/ResultGeneratoinMapper";
 import { StudentService } from "../services/StudentService";
+import  Subject_model  from "../models/SubjectModel";
+import { Sequelize } from "sequelize";
+import Students_model from "../models/StudentsModel";
+import StudentSubject_model from "../models/StudentSubjectsModel";
 
 export class StudentController {
 
@@ -49,7 +53,7 @@ export class StudentController {
 
       var mapper = new StudentMapper();
       var dtos = await mapper.ModelToDto(result);
-
+      
       res.status(200).json(dtos);
     } catch (error) {
       console.log(error);
@@ -59,16 +63,18 @@ export class StudentController {
 
   async addStudentMarks(req: Request, res: Response): Promise<void> {
     console.log(req.params);
-      const context = await Connect();
+
+    const studentid = parseInt(req.params.id);
+    const sub_marks = JSON.stringify(req.body.sub_marks);
+    const query = req.body.query;
+
+    const context = await Connect();
+
     try {
       
-
-      const studentid = parseInt(req.params.id);
-      const sub_marks = JSON.stringify(req.body);
-
       var service = new StudentService(context);
 
-      var result: any = await service.mark(studentid, sub_marks);
+      var result: any = await service.mark(studentid,query, sub_marks);
 
       res.status(200).send(result);
     } catch (error) {
@@ -78,8 +84,10 @@ export class StudentController {
   }
 
   async generateResult(req: Request, res: Response): Promise<void> {
-    init_Sequelize();
+   
     const id = parseInt(req.params.id);
+    const query = req.body.query;
+    
     const context = await Connect();
     try {
       
@@ -88,7 +96,7 @@ export class StudentController {
 
       var service = await new StudentService(context);
 
-      var result: any = await service.stud_res(id);
+      var result: any = await service.stud_res(id,query );
       console.log(result);
       var mapper = new ResultGenerationMapper();
       var dtos = await mapper.ModelToDto(result);

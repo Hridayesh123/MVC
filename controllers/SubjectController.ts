@@ -4,14 +4,18 @@ import { Connect } from "../common/Connect";
 import { SubjectService } from "../services/SubjectService";
 import { GenericService } from "../services/GenericService";
 import { SubjectMapper } from "../mapper/SubjectMapper";
+import  Subject_model  from "../models/SubjectModel";
+import { Sequelize } from "sequelize";
+import Students_model from "../models/StudentsModel";
+import StudentSubject_model from "../models/StudentSubjectsModel";
 
 export class SubjectController{
 
   async getSubject(req: Request, res: Response): Promise<void> {
-
+    const context = await Connect(); 
     try {
 
-      const context = await Connect(); 
+     
 
       const page = parseInt(req.query.page as string) || 1;
       const pageSize = parseInt(req.query.pageSize as string) || 5;
@@ -52,10 +56,11 @@ export class SubjectController{
     }
   }
   
-   createSubject(req: Request, res: Response): void {
+   async createSubject(req: Request, res: Response): Promise<void> {
+    const context = await Connect();
     try{
 
-    const context =  Connect();
+   
 
     const name = req.body.name;
     const code = req.body.code;
@@ -64,7 +69,7 @@ export class SubjectController{
 
     var result:any =  service.create(name,code);
 
-    res.send(result);
+    await res.send(result);
       } catch(err){
     console.log(err.message);
     res.send(err);
@@ -91,8 +96,10 @@ export class SubjectController{
     }
 
    deleteSubject(req: Request, res: Response): void {
-    try{
+
     const context = Connect();
+    try{
+   
 
     const id = parseInt(req.params.id);
 

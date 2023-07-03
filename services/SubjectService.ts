@@ -1,12 +1,16 @@
 import { GenericService } from "./GenericService";
 import { Repository } from "../repository/Repository";
-
+import  Subject_model  from "../models/SubjectModel";
+import { Sequelize } from "sequelize";
+import Students_model from "../models/StudentsModel";
+import StudentSubject_model from "../models/StudentSubjectsModel";
+const construct = require("../models/SubjectModel");
 export class SubjectService<T> extends GenericService<T>{
 
     protected dbContext : any;
 
     constructor(context){
-        var con = require("../models/SubjectModel").Subject(context);
+        var con = construct.Subject(context);
         super(new Repository(con));
 
         this.dbContext = context;
@@ -14,8 +18,8 @@ export class SubjectService<T> extends GenericService<T>{
 
     async create(name, code){
 
-        var creation = await this.repository.create(name,code);
-        return creation;
+         await this.repository.create(name,code);
+        return  "created/ inserted";
     }
 
     async getAll(page, pageSize, searchParam){

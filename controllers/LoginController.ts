@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
-
+import  Subject_model  from "../models/SubjectModel";
+import { Sequelize } from "sequelize";
+import Students_model from "../models/StudentsModel";
+import StudentSubject_model from "../models/StudentSubjectsModel";
 import DbClient from "../config/db_config";
 
 var key = '';

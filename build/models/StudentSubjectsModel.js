@@ -1,12 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StudentSubject_model = void 0;
 const sequelize_1 = require("sequelize");
 var StudentSubject_model;
-exports.StudentSubject_model = StudentSubject_model;
 module.exports = {
     StudentSubjects: function (context) {
-        var StudentSubject_model = context.define("student_subjects", {
+        StudentSubject_model = context.define("student_subjects", {
             // selfGranted: DataTypes.BOOLEAN,
             // id: {
             //   type: DataTypes.INTEGER,
@@ -41,4 +39,5 @@ module.exports = {
         return StudentSubject_model;
     },
 };
+exports.default = StudentSubject_model;
 //# sourceMappingURL=StudentSubjectsModel.js.map

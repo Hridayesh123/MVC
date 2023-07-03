@@ -1,3 +1,4 @@
+
 export class ResultGenerationMapper {
 
     async ModelToDto(model: any[]): Promise<any> {

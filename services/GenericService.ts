@@ -1,4 +1,9 @@
 import { IRepository } from "../repository/interface/iRepository";
+import { Repository } from "../repository/Repository";
+import  Subject_model  from "../models/SubjectModel";
+import { Sequelize } from "sequelize";
+import Students_model from "../models/StudentsModel";
+import StudentSubject_model from "../models/StudentSubjectsModel";
 
 export class GenericService<T> {
 

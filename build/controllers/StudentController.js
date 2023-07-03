@@ -58,12 +58,13 @@ class StudentController {
     addStudentMarks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(req.params);
+            const studentid = parseInt(req.params.id);
+            const sub_marks = JSON.stringify(req.body.sub_marks);
+            const query = req.body.query;
             const context = yield (0, Connect_1.Connect)();
             try {
-                const studentid = parseInt(req.params.id);
-                const sub_marks = JSON.stringify(req.body);
                 var service = new StudentService_1.StudentService(context);
-                var result = yield service.mark(studentid, sub_marks);
+                var result = yield service.mark(studentid, query, sub_marks);
                 res.status(200).send(result);
             }
             catch (error) {
@@ -75,10 +76,11 @@ class StudentController {
     generateResult(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = parseInt(req.params.id);
+            const query = req.body.query;
             const context = yield (0, Connect_1.Connect)();
             try {
                 var service = yield new StudentService_1.StudentService(context);
-                var result = yield service.stud_res(id);
+                var result = yield service.stud_res(id, query);
                 console.log(result);
                 var mapper = new ResultGeneratoinMapper_1.ResultGenerationMapper();
                 var dtos = yield mapper.ModelToDto(result);

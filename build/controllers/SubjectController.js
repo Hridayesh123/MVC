@@ -17,8 +17,8 @@ const SubjectMapper_1 = require("../mapper/SubjectMapper");
 class SubjectController {
     getSubject(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const context = yield (0, Connect_1.Connect)();
             try {
-                const context = yield (0, Connect_1.Connect)();
                 const page = parseInt(req.query.page) || 1;
                 const pageSize = parseInt(req.query.pageSize) || 5;
                 const searchParam = req.query.code || "";
@@ -48,18 +48,20 @@ class SubjectController {
         }
     }
     createSubject(req, res) {
-        try {
-            const context = (0, Connect_1.Connect)();
-            const name = req.body.name;
-            const code = req.body.code;
-            var service = new SubjectService_1.SubjectService(context);
-            var result = service.create(name, code);
-            res.send(result);
-        }
-        catch (err) {
-            console.log(err.message);
-            res.send(err);
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            const context = yield (0, Connect_1.Connect)();
+            try {
+                const name = req.body.name;
+                const code = req.body.code;
+                var service = new SubjectService_1.SubjectService(context);
+                var result = service.create(name, code);
+                yield res.send(result);
+            }
+            catch (err) {
+                console.log(err.message);
+                res.send(err);
+            }
+        });
     }
     updateSubject(req, res) {
         try {
@@ -77,8 +79,8 @@ class SubjectController {
         }
     }
     deleteSubject(req, res) {
+        const context = (0, Connect_1.Connect)();
         try {
-            const context = (0, Connect_1.Connect)();
             const id = parseInt(req.params.id);
             var service = new SubjectService_1.SubjectService(context);
             var result = service.delete(id);

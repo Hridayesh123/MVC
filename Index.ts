@@ -6,12 +6,16 @@ import { Server } from 'http';
 import * as jwt from 'jsonwebtoken';
 import { init_Sequelize } from './common/Connect';
 import  * as Associations from './associations/Associations';
+import  Subject_model  from "./models/SubjectModel";
+import { Sequelize } from "sequelize";
+import Students_model from "./models/StudentsModel";
+import StudentSubject_model from "./models/StudentSubjectsModel";
 
 
 const app = express();
 
 const port = 3000;
-
+init_Sequelize();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

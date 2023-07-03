@@ -30,20 +30,20 @@ class StudentService extends GenericService_1.GenericService {
             return result;
         });
     }
-    mark(studentid, sub_marks) {
+    mark(studentid, query, sub_marks) {
         return __awaiter(this, void 0, void 0, function* () {
-            var marking = yield this.dbContext.mark(`SELECT update_student_subjects(:studentid, :sub_marks)`, {
-                replacements: { studentid: studentid, sub_marks: sub_marks },
-            });
-            return marking ? marking : "marks updated";
+            try {
+                var marking = yield this.repository.marking(studentid, query, sub_marks);
+                return marking;
+            }
+            catch (err) {
+                console.log(err);
+            }
         });
     }
-    stud_res(id) {
+    stud_res(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const studentDetails = yield this.dbContext.query(`SELECT id, name, address, subject_id, subject_code, marks
-              FROM stud_by_id(:id_holder)`, {
-                replacements: { id_holder: id },
-            });
+            const studentDetails = yield this.repository.stud_result(id, query);
             return studentDetails;
         });
     }

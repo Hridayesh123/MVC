@@ -14,6 +14,10 @@ class StudentMapper {
     ModelToDto(model) {
         return __awaiter(this, void 0, void 0, function* () {
             const name = model.firstname + (model.middlename ? ` ${model.middlename}` : '') + ` ${model.lastname}`;
+            var val = model;
+            console.log(model);
+            console.log(name);
+            console.log(model.subjects);
             const studentSubjects = model.subjects;
             // console.log(studentSubjects)
             const subjects = [];

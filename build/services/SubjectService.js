@@ -12,16 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubjectService = void 0;
 const GenericService_1 = require("./GenericService");
 const Repository_1 = require("../repository/Repository");
+const construct = require("../models/SubjectModel");
 class SubjectService extends GenericService_1.GenericService {
     constructor(context) {
-        var con = require("../models/SubjectModel").Subject(context);
+        var con = construct.Subject(context);
         super(new Repository_1.Repository(con));
         this.dbContext = context;
     }
     create(name, code) {
         return __awaiter(this, void 0, void 0, function* () {
-            var creation = yield this.dbContext.query(`INSERT INTO subjects(name, code) VALUES($1, $2)`, [name, code]);
-            return "inserted / created";
+            yield this.repository.create(name, code);
+            return "created/ inserted";
         });
     }
     getAll(page, pageSize, searchParam) {
@@ -30,7 +31,8 @@ class SubjectService extends GenericService_1.GenericService {
             return result;
             //    const allSubjects = await this.dbContext.query(
             //      "SELECT * FROM getALLSubjects(:searchParam, :page, :pageSize);",
-            //      {       *******DATABASE FUNCTION IMPLEMENTATION BATA******
+            //      {       
+            //   **************DATABASE FUNCTION IMPLEMENTATION BATA AS OPPOSED TO SEQ FUNCTION************
             //        replacements: {
             //          searchParam: searchParam,
             //          page: page,
@@ -42,19 +44,19 @@ class SubjectService extends GenericService_1.GenericService {
     }
     byID(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const byID = yield this.dbContext.query(`SELECT * FROM subjects WHERE id=${id}`);
-            return byID;
+            const getByID = yield this.repository.byID(id);
+            return getByID;
         });
     }
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            var deletion = yield this.dbContext.query(`DELETE FROM subjects where id=${id}`);
+            var deletion = yield this.repository.delete(id);
             return deletion ? deletion : "subject deleted";
         });
     }
     update(id, name, code) {
         return __awaiter(this, void 0, void 0, function* () {
-            var updating = yield this.dbContext.query(`UPDATE subjects SET name = $1, code = $2 WHERE id = $3`, [name, code, id]);
+            var updating = yield this.repository.update(id, name, code);
             return updating ? updating : "subject updated";
         });
     }

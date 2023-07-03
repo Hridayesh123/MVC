@@ -3,7 +3,10 @@ export class StudentMapper {
   async ModelToDto(model: any): Promise<any> {
 
     const name = model.firstname + (model.middlename ? ` ${model.middlename}` : '') + ` ${model.lastname}`;
-
+    var val= model;
+    console.log(model);
+    console.log(name);
+    console.log(model.subjects);
       const studentSubjects = model.subjects;
     // console.log(studentSubjects)
       const subjects = [];
