@@ -1,3 +1,4 @@
+
 import { Connect, init_Sequelize } from "../common/Connect";
 import { Request, Response, query } from "express";
 import { GenericService } from "../services/GenericService";
@@ -10,6 +11,9 @@ import Students_model from "../models/StudentsModel";
 import StudentSubject_model from "../models/StudentSubjectsModel";
 import { ParserService } from "../services/ParserService";
 import { DBoperationService } from "../services/DBoperationService";
+import * as multer from 'multer';
+import { FileFilterCallback } from 'multer';
+const upload = multer({ dest: 'uploads/' });
 
 export class StudentController {
 
@@ -116,10 +120,12 @@ export class StudentController {
     const context = await Connect();
 
     try{
-
+      const file =req.file;
     var service = await new ParserService();
 
-    var result: any = await service.seedCSV("C:/Users/pc/Documents/parser_file.csv");
+    // var result: any = await service.seedCSV("C:/Users/pc/Documents/parser_file.csv");
+
+    var result: any = await service.seedCSV(file.path);
 
     var serve = await new DBoperationService(context);
 
@@ -130,7 +136,11 @@ export class StudentController {
     catch(err){
     console.log(err);
       }
+
+     
   }
+
+  
 }
 
 //GETSTUDENTSBYID***************** ( alternate portion)
