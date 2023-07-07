@@ -22,16 +22,6 @@ export class Repository<T> implements IRepository<T> {
     return result;
   }
 
-  async getAll(page: any, pageSize: any, searchParam: any): Promise<any> {
-    const offset = (page - 1) * pageSize;
-
-    var result = await this.dbContext.findAll({
-      limit: pageSize,
-      offset,
-      order: [["id", "ASC"]],
-    });
-    return result;
-  }
   
   async create(name: any, code: any): Promise<any> {
     try {
@@ -82,26 +72,67 @@ export class Repository<T> implements IRepository<T> {
   //   });
   //   return result;
   // }
-  async stud_result(id, query): Promise<any> {
-    const replacements = {
-      id_holder: id,
-    };
 
+
+
+  // async stud_result(id, query): Promise<any> {
+  //   const replacements = {
+  //     id_holder: id,
+  //   };
+
+  //   var result = await this.dbContext.sequelize.query(query, {
+  //     replacements: replacements,
+  //   });
+
+  //   return result;
+  // }
+
+  async runFunction(query:string, replacements: any) {
     var result = await this.dbContext.sequelize.query(query, {
-      replacements: replacements,
+      replacements,
     });
-
     return result;
   }
 
-  async marking(studentid, query, sub_marks): Promise<any> {
-    const replacements = { studentid: studentid,  sub_marks: sub_marks };
+  // async marking(studentid, query, sub_marks): Promise<any> {
+  //   const replacements = { studentid: studentid,  sub_marks: sub_marks };
   
-    await this.dbContext.sequelize.query(query, {
-      replacements: replacements,
+  //   await this.dbContext.sequelize.query(query, {
+  //     replacements: replacements,
+  //   });
+  
+  //   return "marks updated";
+  // }
+
+  // async getAll(page, pageSize, searchParam): Promise<any> {
+  //   const replacements = { page:page , pageSize:pageSize, searchParam:searchParam}
+  //   await this.dbContext.sequelize.query(query, {
+  //     replacements:replacements
+  //   });
+
+
+    //*******************************/
+    // const offset = (page - 1) * pageSize;
+
+    // var result = await this.dbContext.findAll({
+    //   limit: pageSize,
+    //   offset,
+    //   order: [["id", "ASC"]],
+    // });
+    // return result;
+  //}
+  
+
+  async getAll( page: any, pageSize: any) {
+   
+    const offset =(page - 1) * pageSize;
+
+    var result = await this.dbContext.findAll({
+      limit: pageSize,
+      offset,
+      order: [["id", "ASC"]],
     });
-  
-    return "marks updated";
+    return result;
+
   }
-  
 }

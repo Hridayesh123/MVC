@@ -17,28 +17,35 @@ export class StudentService<T> extends GenericService<T> {
     this.dbContext = context;
   }
 
-  async getAll(page: any, pageSize: any, searchParam: any): Promise<any> {
-    var result: any = await this.repository.getAll(page, pageSize, searchParam);
-    return result;
-  }
+  
   async get(id_holder) {
     var result: Awaited<Promise<any>> = await this.repository.get(id_holder);
 
     return result;
   }
 
-  async mark(studentid:any, query:any ,sub_marks:any) {
+  async mark(studentid:any, sub_marks:any) {
+
     try {
-      var marking = await this.repository.marking(studentid, query, sub_marks);
+      var query = 'SELECT trial(:studentid, :sub_marks)';
+      const replacements = { studentid: studentid,  sub_marks: sub_marks };
+  
+      var marking = await this.repository.runFunction(query, replacements);
       return marking;
-    } catch (err) {
+      }
+     
+     catch (err) {
       console.log(err);
     }
   }
 
-  async stud_res(id: any, query: any) {
+  async stud_res(id: any) {
+
+    var query = 'SELECT id, name, address, subject_id, subject_code, marks FROM stud_by_id(:id_holder)';
+    var replacements= { id_holder : id};
+
     const studentDetails: Awaited<Promise<any>> =
-      await this.repository.stud_result(id, query);
+      await this.repository.runFunction(query, replacements);
 
     return studentDetails;
   }

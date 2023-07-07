@@ -14,9 +14,9 @@ export class GenericService<T> {
     }
 
     
-    async getAll(page, pageSize, searchParam){
+    async getAll( page, pageSize){
 
-        var result : any = await this.repository.getAll(page,pageSize,searchParam);
+        var result : any = await this.repository.getAll(page,pageSize);
         return result;
  }
 }

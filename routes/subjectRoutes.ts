@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post("/verify", verifyToken);
 
-router.get("/getAll", sub_control.getSubject);//
+router.get("/", sub_control.getSubject);//
 
 router.get("/:id", sub_control.getSubjectsById);
 

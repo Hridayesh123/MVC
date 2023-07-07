@@ -22,11 +22,8 @@ export class SubjectService<T> extends GenericService<T>{
         return  "created/ inserted";
     }
 
-    async getAll(page, pageSize, searchParam){
-
-        var result : any = await this.repository.getAll(page,pageSize,searchParam);
-        return result;
-   
+  
+   //GET ALL STUDENTS
 //    const allSubjects = await this.dbContext.query(
 //      "SELECT * FROM getALLSubjects(:searchParam, :page, :pageSize);",
 //      {       
@@ -38,8 +35,7 @@ export class SubjectService<T> extends GenericService<T>{
 //        },
 //      });
 //     return allSubjects;
-    }
-
+    
     async byID(id){
         const getByID = await this.repository.byID(id);
         return getByID;

@@ -8,6 +8,8 @@ import  Subject_model  from "../models/SubjectModel";
 import { Sequelize } from "sequelize";
 import Students_model from "../models/StudentsModel";
 import StudentSubject_model from "../models/StudentSubjectsModel";
+import { ParserService } from "../services/ParserService";
+import { DBoperationService } from "../services/DBoperationService";
 
 export class StudentController {
 
@@ -19,12 +21,12 @@ export class StudentController {
 
       const page = parseInt(req.query.page as string) || 1;
       const pageSize = parseInt(req.query.pageSize as string) || 5;
-      const searchParam = (req.query.code as string) || "";
+      // const searchParam = (req.query.code as string) || "";
       
 
-      var service = new GenericService(context);
+      var service = new StudentService(context);
 
-      var result: any = await service.getAll(page, pageSize, searchParam)
+      var result: any = await service.getAll( page, pageSize);
       
       
       res.send(result);
@@ -66,7 +68,7 @@ export class StudentController {
 
     const studentid = parseInt(req.params.id);
     const sub_marks = JSON.stringify(req.body.sub_marks);
-    const query = req.body.query;
+   
 
     const context = await Connect();
 
@@ -74,7 +76,7 @@ export class StudentController {
       
       var service = new StudentService(context);
 
-      var result: any = await service.mark(studentid,query, sub_marks);
+      var result: any = await service.mark(studentid, sub_marks);
 
       res.status(200).send(result);
     } catch (error) {
@@ -86,7 +88,7 @@ export class StudentController {
   async generateResult(req: Request, res: Response): Promise<void> {
    
     const id = parseInt(req.params.id);
-    const query = req.body.query;
+    
     
     const context = await Connect();
     try {
@@ -96,7 +98,7 @@ export class StudentController {
 
       var service = await new StudentService(context);
 
-      var result: any = await service.stud_res(id,query );
+      var result: any = await service.stud_res(id );
       console.log(result);
       var mapper = new ResultGenerationMapper();
       var dtos = await mapper.ModelToDto(result);
@@ -107,6 +109,27 @@ export class StudentController {
       console.log(err);
       res.status(404).json(err.message);
     }
+  }
+
+  async seedCSV(req: Request, res: Response): Promise<any>{
+
+    const context = await Connect();
+
+    try{
+
+    var service = await new ParserService();
+
+    var result: any = await service.seedCSV("C:/Users/pc/Documents/parser_file.csv");
+
+    var serve = await new DBoperationService(context);
+
+    var operated = await serve.operate(result);
+
+    res.status(200).send(operated);
+        }
+    catch(err){
+    console.log(err);
+      }
   }
 }
 

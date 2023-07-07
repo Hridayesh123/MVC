@@ -19,6 +19,8 @@ router.get("/student/:id", stud_control.getStudentsById);
 
 router.put("/students/:id", stud_control.addStudentMarks);
 
-router.post("/students/:id/results",stud_control.generateResult);
+router.get("/students/:id/results",stud_control.generateResult);
+
+router.get("/seedCSV",stud_control.seedCSV);
 
 export default router;

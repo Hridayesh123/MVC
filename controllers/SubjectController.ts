@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, query } from "express";
 import DbClient from "../config/db_config";
 import { Connect } from "../common/Connect";
 import { SubjectService } from "../services/SubjectService";
@@ -8,6 +8,7 @@ import  Subject_model  from "../models/SubjectModel";
 import { Sequelize } from "sequelize";
 import Students_model from "../models/StudentsModel";
 import StudentSubject_model from "../models/StudentSubjectsModel";
+import { StudentService } from "../services/StudentService";
 
 export class SubjectController{
 
@@ -16,15 +17,15 @@ export class SubjectController{
     try {
 
      
-
+    
       const page = parseInt(req.query.page as string) || 1;
       const pageSize = parseInt(req.query.pageSize as string) || 5;
-      const searchParam = (req.query.code as string) || "";
+      // const searchParam = (req.query.code as string) || "";
       
 
-      var service = new GenericService(context);
+      var service = new SubjectService(context);
 
-      var result: any = await service.getAll(page, pageSize, searchParam)
+      var result: any = await service.getAll( page, pageSize);
 
       var mapper = new SubjectMapper();
 
