@@ -120,12 +120,13 @@ export class StudentController {
     const context = await Connect();
 
     try{
-      const file =req.file;
+      //const file = req.file;
+      const usableCSV = req.file.buffer;
     var service = await new ParserService();
 
     // var result: any = await service.seedCSV("C:/Users/pc/Documents/parser_file.csv");
 
-    var result: any = await service.seedCSV(file.path);
+    var result: any = await service.seedCSV(usableCSV);
 
     var serve = await new DBoperationService(context);
 

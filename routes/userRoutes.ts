@@ -1,13 +1,13 @@
 import * as express from 'express';
 import { login } from '../controllers/LoginController';
-//import { addStudentMarks, getStudentsById, generateResult } from '../controllers/StudentController';
 import { StudentController } from '../controllers/StudentController';
 import  Subject_model  from "../models/SubjectModel";
 import { Sequelize } from "sequelize";
 import Students_model from "../models/StudentsModel";
 import StudentSubject_model from "../models/StudentSubjectsModel";
 import * as multer from 'multer';
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ });
+
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.put("/students/:id", stud_control.addStudentMarks);
 
 router.get("/students/:id/results",stud_control.generateResult);
 
-//router.get("/seedCSV",stud_control.seedCSV); 
+router.get("/seedCSV",stud_control.seedCSV); 
 
 router.post('/postCSV', upload.single('csvFile'),stud_control.seedCSV );
 

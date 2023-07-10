@@ -1,27 +1,33 @@
 import * as csv from "csv-parser";
 import * as fs from "fs";
+import { Readable } from "stream";
 
 
 export class ParserService{
 
-  async seedCSV(path){
-    let result = await this.readCsv(path)
+  async seedCSV(buffer/*path*/){
+    let result = await this.readCsv(buffer)
     
     console.log(result);
     return result;
     
  }
 
-async  readCsv(path): Promise<any> {
+async  readCsv(buffer/*path*/): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       let myMap: any = [];
-      fs.createReadStream(path)
-        .pipe(csv())
-  
-        .on("data", (row: any) => {
+      const stream = Readable.from(buffer);  // accessing directly
+
+      //  fs.createReadStream(path)
+      //    .pipe(csv())            **************** when working with file path , when directly parsing use buffer and not createReadStream**************************
+      //   .on("data", (row: any) => {
+      //     myMap.push(row);
+      //   })
+
+  stream.pipe(csv())
+        .on("data", (row:any) => {
           myMap.push(row);
         })
-  
         .on("end", () => {
           const jsonData = JSON.stringify(myMap); // Convert the array to JSON string
           // const jsonObject = JSON.parse(jsonData); // Convert the JSON string to JSON object
