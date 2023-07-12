@@ -27,5 +27,7 @@ router.get("/seedCSV",stud_control.seedCSV);
 
 router.post('/postCSV', upload.single('csvFile'),stud_control.seedCSV );
 
+router.get('/exportCSV/:id/download', stud_control.exportCSV);
+
 
 export default router;

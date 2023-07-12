@@ -10,7 +10,7 @@ export class SubjectService<T> extends GenericService<T>{
     protected dbContext : any;
 
     constructor(context){
-        var con = construct.Subject(context);
+        var con = construct.default(context);
         super(new Repository(con));
 
         this.dbContext = context;

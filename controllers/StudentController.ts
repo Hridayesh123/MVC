@@ -14,6 +14,12 @@ import { DBoperationService } from "../services/DBoperationService";
 import * as multer from 'multer';
 import { FileFilterCallback } from 'multer';
 const upload = multer({ dest: 'uploads/' });
+import { associateStudentModel } from "../models/StudentsModel";
+import { CSVoperationService } from "../services/CSVoperationService";
+import * as fs from 'fs';
+
+
+
 
 export class StudentController {
 
@@ -139,6 +145,44 @@ export class StudentController {
       }
 
      
+  }
+
+  async exportCSV(req: Request,res: Response): Promise<any>{
+    const id = parseInt(req.params.id);
+    const context = await Connect();
+    
+    try{
+    
+      var service = await new StudentService(context);
+      
+      var result: any = await service.exportCSV(id);
+
+      var serve = await new CSVoperationService(context);
+
+      var operated = await serve.exports(result);
+      res.setHeader('Content-Disposition', 'inline; filename=exported_data.csv');
+      res.setHeader('Content-Type', 'text/csv');
+      // res.send(Buffer.from(operated, 'utf8'));
+
+    // const readStream = fs.createReadStream('exported_data.csv');
+    // readStream.pipe(res);   /******************use when no need encrypting***********/
+    
+    // const backToCSV = Buffer.from(operated, 'base64').toString('utf8');
+    // console.log(backToCSV); /***********back to csv format *************/
+    
+    // fs.writeFile('exported_data.csv', backToCSV, 'utf8', (err) => {
+    //   if (err) {
+    //     console.error(err);
+    //   } else {
+    //     console.log('CSV file has been written successfully.');
+    //   }
+    // });
+    res.send(operated);
+
+    }catch(err){
+      console.log(err);
+    }
+
   }
 
   

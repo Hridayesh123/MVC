@@ -5,7 +5,8 @@ import userRoutes from './routes/userRoutes';
 import { Server } from 'http';
 import * as jwt from 'jsonwebtoken';
 import { init_Sequelize } from './common/Connect';
-import  * as Associations from './associations/Associations';
+import { associateSubjectModel } from './models/SubjectModel';
+import { associateStudentModel } from './models/StudentsModel';
 import  Subject_model  from "./models/SubjectModel";
 import { Sequelize } from "sequelize";
 import Students_model from "./models/StudentsModel";
@@ -16,6 +17,8 @@ const app = express();
 
 const port = 3000;
 init_Sequelize();
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

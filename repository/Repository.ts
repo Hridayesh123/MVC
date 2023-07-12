@@ -1,10 +1,11 @@
 import { seq } from "../common/Connect";
-
+import { createObjectCsvWriter } from 'csv-writer';
 import { IRepository } from "./interface/iRepository";
 import Subject_model from "../models/SubjectModel";
 import { Sequelize } from "sequelize";
 import Students_model from "../models/StudentsModel";
 import StudentSubject_model from "../models/StudentSubjectsModel";
+
 
 export class Repository<T> implements IRepository<T> {
   private dbContext: any;
@@ -135,4 +136,6 @@ export class Repository<T> implements IRepository<T> {
     return result;
 
   }
+
+  
 }

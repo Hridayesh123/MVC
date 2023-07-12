@@ -13,7 +13,7 @@ export class ParserService{
     
  }
 
-async  readCsv(buffer/*path*/): Promise<any> {
+  async readCsv(buffer/*path*/): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       let myMap: any = [];
       const stream = Readable.from(buffer);  // accessing directly
@@ -40,6 +40,8 @@ async  readCsv(buffer/*path*/): Promise<any> {
     
   }
 
+
+
  
 
 }
@@ -49,3 +51,10 @@ async  readCsv(buffer/*path*/): Promise<any> {
 
 
   //join use garnu parxa
+
+
+  //csv export, 
+  //students/:id/download , hit csv file ma convert
+  //name , subject, marks, address
+
+  //how to use b64 in csv file

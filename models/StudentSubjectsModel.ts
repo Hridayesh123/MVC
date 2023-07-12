@@ -1,51 +1,50 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { Sequelize, DataTypes, Model } from "sequelize";
+import { StudentModel } from "./StudentsModel";
+import { SubjectModel } from "./SubjectModel";
 
-var StudentSubject_model;
+export class StudentSubjectModel extends Model {
+  public studentid!: number;
+  public subjectid!: number;
+  public marks!: number;
+  
+}
 
-module.exports = {
-
-  StudentSubjects: function (context) {
-
-     StudentSubject_model = context.define(
-      "student_subjects",
-      {
-        // selfGranted: DataTypes.BOOLEAN,
-        // id: {
-        //   type: DataTypes.INTEGER,
-        //   primaryKey: true,
-        //   autoIncrement: true
-        // },
-        // student_id: {
-        //   type: DataTypes.INTEGER,
-        //   allowNull: false,
-        //   references: {
-        //     model: Students_model,
-        //     key: 'id'
-        //   }
-        // },
-        // subject_id: {
-        //   type: DataTypes.INTEGER,
-        //   allowNull: false,
-        //   references: {
-        //     model: Subject_model,
-        //     key: 'id'
-        //   }
-        // },
-        marks: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-        },
-        grade: {
-          type: DataTypes.INTEGER,
-          allowNull: true,
+export function initializeStudentSubjectModel(sequelize: Sequelize): void {
+  StudentSubjectModel.init(
+    {
+      studentId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        references: {
+          model: StudentModel,
+          key: "id",
         },
       },
-      { timestamps: false }
-    );
-    return StudentSubject_model
-  },
+      subjectId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        references: {
+          model: SubjectModel,
+          key: "id",
+        },
+      },
+      marks: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+    
+    },
+    {
+      sequelize,
+      timestamps: false,
+     
+    }
+  );
+}
+
+const construct = function (context) {
+  initializeStudentSubjectModel(context);
+  return StudentSubjectModel;
 };
 
-export default StudentSubject_model;
-
-
+export default construct;

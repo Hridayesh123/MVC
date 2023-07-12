@@ -6,7 +6,7 @@ export class DBoperationService<T> extends GenericService<T>{
     protected dbContext: any;
 
   constructor(context) {
-    var con = require("../models/StudentsModel").Students(context);
+    var con = require("../models/StudentsModel").default(context);
     super(new Repository(con));
 
     this.dbContext = context;

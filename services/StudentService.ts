@@ -11,10 +11,11 @@ export class StudentService<T> extends GenericService<T> {
   protected dbContext: any;
 
   constructor(context) {
-    var con = require("../models/StudentsModel").Students(context);
+    var con = require("../models/StudentsModel").default(context);
     super(new Repository(con));
 
     this.dbContext = context;
+    
   }
 
   
@@ -49,4 +50,14 @@ export class StudentService<T> extends GenericService<T> {
 
     return studentDetails;
   }
+//id
+    async exportCSV(id):Promise<any> {
+    
+    var query = 'SELECT * FROM exportData(:id_holder)';
+    var replacements = { id_holder : id};
+    
+    var result = await this.repository.runFunction(query, replacements);
+    return result[0];
+  }
 }
+

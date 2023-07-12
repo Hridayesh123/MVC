@@ -16,7 +16,7 @@ export interface IRepository<T> {
 
     runFunction(query: any, replacements: any);
 
-   
+    
 
 
 

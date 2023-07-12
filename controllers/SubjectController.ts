@@ -9,7 +9,7 @@ import { Sequelize } from "sequelize";
 import Students_model from "../models/StudentsModel";
 import StudentSubject_model from "../models/StudentSubjectsModel";
 import { StudentService } from "../services/StudentService";
-
+import { associateSubjectModel } from "../models/SubjectModel";
 export class SubjectController{
 
   async getSubject(req: Request, res: Response): Promise<void> {
@@ -105,6 +105,7 @@ export class SubjectController{
     const id = parseInt(req.params.id);
 
     var service = new SubjectService(context);
+   
 
     var result:any = service.delete(id);
     

@@ -1,48 +1,55 @@
-import { Sequelize, DataTypes } from "sequelize";
-import  Subject_model  from "./SubjectModel";
-import  StudentSubject_model  from "./StudentSubjectsModel";
+import { Sequelize, DataTypes, Model } from "sequelize";
+import { SubjectModel } from "./SubjectModel";
+import { StudentSubjectModel } from "./StudentSubjectsModel";
 
-var Students_model;
+export class StudentModel extends Model {
+  public id!: number;
+  public name!: string;
+  public address!: string;
+}
 
-module.exports = {
-  Students: function (context) {
-
-     Students_model = context.define(
-      "students",
-      {
-        id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        firstname: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        middlename: {
-          type: DataTypes.STRING,
-          allowNull: true,
-        },
-        lastname: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
-        email:{
-          type:DataTypes.STRING,
-          allowNull:false,
-        },
-        address: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
+export function initializeStudentModel(sequelize: Sequelize): void {
+  StudentModel.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      { timestamps: false }
-    );
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      timestamps: false,
+      
+    }
+  );
+}
 
- 
-    
-    return Students_model;
-  },
+export function associateStudentModel(): void {
+  StudentModel.belongsToMany(SubjectModel, {
+    through: StudentSubjectModel,
+    foreignKey: "studentid",
+    otherKey: "subjectid",
+  });
+  SubjectModel.belongsToMany(StudentModel, {
+    through: StudentSubjectModel,
+    foreignKey: "subjectid",
+    otherKey: "studentid",
+  });
+}
+
+const construct = function (context) {
+  initializeStudentModel(context);
+  
+  return StudentModel;
 };
 
-export default Students_model;
+export default construct;
