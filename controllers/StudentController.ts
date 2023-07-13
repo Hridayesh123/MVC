@@ -160,24 +160,40 @@ export class StudentController {
       var serve = await new CSVoperationService(context);
 
       var operated = await serve.exports(result);
-      res.setHeader('Content-Disposition', 'inline; filename=exported_data.csv');
-      res.setHeader('Content-Type', 'text/csv');
+      // res.setHeader('Content-Disposition', 'attachment; filename=exports.csv');
+      // res.setHeader('Content-Type', 'text/csv');
       // res.send(Buffer.from(operated, 'utf8'));
 
-    // const readStream = fs.createReadStream('exported_data.csv');
+    // const readStream = fs.createReadStream('exports.csv');
     // readStream.pipe(res);   /******************use when no need encrypting***********/
     
-    // const backToCSV = Buffer.from(operated, 'base64').toString('utf8');
-    // console.log(backToCSV); /***********back to csv format *************/
+    const backToCSV = Buffer.from(operated, 'base64').toString('utf8');
+    console.log(backToCSV); /***********back to csv format *************/
     
-    // fs.writeFile('exported_data.csv', backToCSV, 'utf8', (err) => {
+    // fs.writeFile('exports.csv', backToCSV, 'utf8', (err) => {
     //   if (err) {
     //     console.error(err);
     //   } else {
     //     console.log('CSV file has been written successfully.');
     //   }
     // });
-    res.send(operated);
+
+    //   var filename = "exported.csv";
+    // res.writeHead(200, {
+    //   "Content-Disposition": `attachment; filename="${filename}"`,
+    //    "Content-Type": `text/csv`,
+    //    "X-Blob-FileName": filename
+    //    });
+      
+    //    return res.status(200).end(operated);
+   
+    // res.send(operated);
+
+    res.setHeader('Content-Disposition', 'attachment; filename="xxxxx.csv"');
+    res.setHeader('Content-Type', 'text/csv');
+    res.send( operated );
+    
+
 
     }catch(err){
       console.log(err);

@@ -15,7 +15,7 @@ import StudentSubject_model from "./models/StudentSubjectsModel";
 
 const app = express();
 
-const port = 3000;
+const port = 1100;
 init_Sequelize();
 
 

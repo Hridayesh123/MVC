@@ -2,6 +2,8 @@ import { Repository } from "../repository/Repository";
 import { GenericService } from "./GenericService";
 import { createObjectCsvWriter } from "csv-writer";
 import * as fs from "fs";
+import * as path from 'path';
+import * as os from 'os';
 
 export class CSVoperationService<T> extends GenericService<T> {
   protected dbContext: any;
@@ -15,8 +17,9 @@ export class CSVoperationService<T> extends GenericService<T> {
 
   async exports(result) {
     console.log(result);
+    const documentsPath = path.join(os.homedir(), 'Documents');
     const csvWriter = createObjectCsvWriter({
-      path: "exported_data.csv",
+      path: path.join(documentsPath, 'exported.csv'),
       header: [
         { id: "firstname", title: "FIRSTNAME" },
         { id: "address", title: "Address" },
@@ -35,16 +38,27 @@ export class CSVoperationService<T> extends GenericService<T> {
         code: item.code,
         name: item.name,
         marks: item.marks,
+        
       };
     });
 
-    await csvWriter.writeRecords(data);
+     await csvWriter.writeRecords(data);
+     const csvFilePath = path.join(documentsPath, 'exported.csv');
 
-    const fs = require('fs');
-    const fileContent = fs.readFileSync('exported_data.csv');
-    const base64Data = fileContent.toString('base64');
+     const csvData = fs.readFileSync(csvFilePath);
+     const csvBase64 = Buffer.from(csvData).toString("base64");
+
+    // const fs = require('fs');
+    // const fileData = fs.readFileSync('exported.csv');
+
+    //const decodedBase64String = Buffer.from(fileData, 'base64').toString();
+
+    // const filename = decodedBase64String.match(/filename="(.*).csv/)[1];
+
+    
+    //  const base64Data = fileData.toString('base64');
     // const base64Data = Buffer.alloc(fileContent.length).from(fileContent).toString('base64');
     
-    return base64Data;
+    return csvBase64;
   }
 }
