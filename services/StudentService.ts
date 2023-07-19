@@ -57,7 +57,18 @@ export class StudentService<T> extends GenericService<T> {
     var replacements = { id_holder : id};
     
     var result = await this.repository.runFunction(query, replacements);
-    return result[0];
+    return result;
+  }
+
+  async exportAll():Promise<any> {
+    
+    var replacements ;
+    var query = 'SELECT * FROM exportAll()';
+    var result = await this.repository.runFunction(query,replacements);
+   
+    return result;
+    
+
   }
 }
 
